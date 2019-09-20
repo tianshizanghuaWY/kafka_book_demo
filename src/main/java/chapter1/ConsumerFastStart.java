@@ -13,7 +13,7 @@ import java.util.Properties;
  * Created by 朱小厮 on 2018/7/21.
  */
 public class ConsumerFastStart {
-    public static final String brokerList = "localhost:9092";
+    public static final String brokerList = "localhost:19092";
     public static final String topic = "topic-demo";
     public static final String groupId = "group.demo";
 
@@ -33,7 +33,8 @@ public class ConsumerFastStart {
             ConsumerRecords<String, String> records =
                     consumer.poll(Duration.ofMillis(1000));
             for (ConsumerRecord<String, String> record : records) {
-                System.out.println(record.value());
+                System.out.println("partition:" + record.partition()
+                + ", offset:" + record.offset() + ", value:" + record.value());
             }
         }
     }

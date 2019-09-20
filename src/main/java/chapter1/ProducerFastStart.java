@@ -10,7 +10,7 @@ import java.util.Properties;
  * Created by 朱小厮 on 2018/7/21.
  */
 public class ProducerFastStart {
-    public static final String brokerList = "localhost:9092";
+    public static final String brokerList = "localhost:19092";
     public static final String topic = "topic-demo";
 
     public static void main(String[] args) {
@@ -24,11 +24,14 @@ public class ProducerFastStart {
 
         KafkaProducer<String, String> producer =
                 new KafkaProducer<>(properties);
-        ProducerRecord<String, String> record =
-                new ProducerRecord<>(topic, "hello, Kafka!");
         try {
-            producer.send(record);
-//            producer.send(record).get();
+            for(int i = 0; i < 100; i++){
+                ProducerRecord<String, String> record =
+                        new ProducerRecord<>(topic, "hello, Kafka! " + (i+1));
+                producer.send(record);
+
+                Thread.sleep(1000);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
